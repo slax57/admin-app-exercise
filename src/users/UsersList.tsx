@@ -9,9 +9,11 @@ import Paper from "@mui/material/Paper";
 import { useQuery } from "react-query";
 import { findAll } from "../dataProvider";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function UsersList() {
   const { isLoading, error, data } = useQuery("users", () => findAll());
+  const navigate = useNavigate();
 
   if (isLoading)
     return (
@@ -44,6 +46,10 @@ export default function UsersList() {
               <TableRow
                 key={user.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                onClick={() => {
+                  navigate(`/users/${user.id}`);
+                }}
+                hover
               >
                 <TableCell component="th" scope="row">
                   {user.id}
