@@ -1,20 +1,30 @@
-import { Box, ListItemButton, ListItemText, Typography } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
+import { Card, Grid, List, Stack, Typography } from "@mui/material";
+import { ListItemLink } from "./common/ListItemLink";
 
 function Home() {
   return (
-    <Box>
-      <Typography variant="h2" component="div">
-        Welcome to Beers Admin!
-      </Typography>
-      <ListItemButton component={() => <Link to="/users" />}>
-        <ListItemText primary="Users" />
-      </ListItemButton>
-      <nav>
-        <Link to="/users">Users</Link>
-      </nav>
-    </Box>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      margin={4}
+      padding={4}
+    >
+      <Grid item xs={3}>
+        <Card sx={{ height: 350, width: 350 }}>
+          <Stack spacing={2} justifyContent="center" height="100%">
+            <Typography variant="h3" component="div">
+              Welcome to Beers Admin!
+            </Typography>
+            <List>
+              <ListItemLink to="/users" primary="&gt; Users" />
+            </List>
+          </Stack>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
 
