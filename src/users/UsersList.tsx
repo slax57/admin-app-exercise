@@ -15,6 +15,10 @@ import EditIcon from "@mui/icons-material/Edit";
 export default function UsersList() {
   const { isLoading, error, data } = useQuery("users", () => findAll());
   const navigate = useNavigate();
+  const goToEdit = (event: any, userId: number) => {
+    event.stopPropagation();
+    navigate(`/users/${userId}`);
+  };
 
   if (isLoading)
     return (
@@ -48,8 +52,8 @@ export default function UsersList() {
               <TableRow
                 key={user.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                onClick={() => {
-                  navigate(`/users/${user.id}`);
+                onClick={(e) => {
+                  goToEdit(e, user.id);
                 }}
                 hover
               >
@@ -61,8 +65,8 @@ export default function UsersList() {
                 <TableCell>{user.website}</TableCell>
                 <TableCell align="right">
                   <IconButton
-                    onClick={() => {
-                      navigate(`/users/${user.id}`);
+                    onClick={(e) => {
+                      goToEdit(e, user.id);
                     }}
                   >
                     <EditIcon />
