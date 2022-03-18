@@ -16,19 +16,6 @@ export default function ErrorSnackbar(props: { errorMsg?: string }) {
     }
   }, [props.errorMsg]);
 
-  const action = (
-    <>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </>
-  );
-
   return (
     <Snackbar
       open={open}
@@ -36,7 +23,19 @@ export default function ErrorSnackbar(props: { errorMsg?: string }) {
       onClose={handleClose}
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
     >
-      <Alert severity="error" action={action}>
+      <Alert
+        severity="error"
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      >
         {props.errorMsg}
       </Alert>
     </Snackbar>
