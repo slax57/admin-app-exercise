@@ -1,5 +1,6 @@
 import { Card, Grid, List, Stack, Typography } from "@mui/material";
 import { ListItemLink } from "./common/ListItemLink";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 function Home() {
   return (
@@ -19,7 +20,11 @@ function Home() {
               Welcome to Beers Admin!
             </Typography>
             <List>
-              <ListItemLink to="/users" primary="&gt; Users" />
+              <ListItemLink
+                to="/users"
+                primary="Users"
+                icon={<PeopleAltIcon />}
+              />
             </List>
           </Stack>
         </Card>
