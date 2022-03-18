@@ -8,10 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useQuery } from "react-query";
 import { findAll } from "../dataProvider";
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function UsersList() {
   const { isLoading, error, data } = useQuery("users", () => findAll());
+  const navigate = useNavigate();
 
   if (isLoading)
     return (
@@ -36,6 +39,7 @@ export default function UsersList() {
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Website</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -44,6 +48,10 @@ export default function UsersList() {
               <TableRow
                 key={user.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                onClick={() => {
+                  navigate(`/users/${user.id}`);
+                }}
+                hover
               >
                 <TableCell component="th" scope="row">
                   {user.id}
@@ -51,6 +59,15 @@ export default function UsersList() {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.website}</TableCell>
+                <TableCell align="right">
+                  <IconButton
+                    onClick={() => {
+                      navigate(`/users/${user.id}`);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
         </TableBody>

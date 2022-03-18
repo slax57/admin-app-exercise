@@ -3,8 +3,9 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Outlet } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import UsersList from "./UsersList";
+import UserEdit from "./UserEdit";
 
 function Users() {
   return (
@@ -16,7 +17,10 @@ function Users() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <UsersList />
+      <Routes>
+        <Route index element={<UsersList />} />
+        <Route path=":id" element={<UserEdit />} />
+      </Routes>
     </Box>
   );
 }
