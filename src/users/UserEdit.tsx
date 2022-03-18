@@ -11,6 +11,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorText from "../common/ErrorText";
+import TitleBar from "../common/TitleBar";
 
 export default function UserEdit() {
   const queryClient = useQueryClient();
@@ -54,44 +55,47 @@ export default function UserEdit() {
   const user: User = userQuery.data;
 
   return (
-    <Box padding={2}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={2}>
-          <TextField
-            required
-            disabled
-            label="id"
-            defaultValue={user.id}
-            {...register("id")}
-          />
+    <>
+      <TitleBar title={`User #${user.id}`} navBackButton />
+      <Box padding={2}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={2}>
+            <TextField
+              required
+              disabled
+              label="id"
+              defaultValue={user.id}
+              {...register("id")}
+            />
 
-          <TextField
-            required
-            label="name"
-            defaultValue={user.name}
-            {...register("name", { required: true })}
-          />
-          {formErrors.name && <ErrorText text="This field is required" />}
+            <TextField
+              required
+              label="name"
+              defaultValue={user.name}
+              {...register("name", { required: true })}
+            />
+            {formErrors.name && <ErrorText text="This field is required" />}
 
-          <TextField
-            required
-            label="email"
-            defaultValue={user.email}
-            {...register("email", { required: true })}
-          />
-          {formErrors.email && <ErrorText text="This field is required" />}
+            <TextField
+              required
+              label="email"
+              defaultValue={user.email}
+              {...register("email", { required: true })}
+            />
+            {formErrors.email && <ErrorText text="This field is required" />}
 
-          <TextField
-            label="website"
-            defaultValue={user.website}
-            {...register("website")}
-          />
+            <TextField
+              label="website"
+              defaultValue={user.website}
+              {...register("website")}
+            />
 
-          <Button variant="contained" type="submit">
-            Save
-          </Button>
-        </Stack>
-      </form>
-    </Box>
+            <Button variant="contained" type="submit">
+              Save
+            </Button>
+          </Stack>
+        </form>
+      </Box>
+    </>
   );
 }
