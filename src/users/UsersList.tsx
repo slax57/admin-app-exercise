@@ -1,12 +1,14 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { useQuery } from "react-query";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import { useQuery, useQueryClient } from "react-query";
 import { findAll } from "../dataProvider";
 import { IconButton, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +16,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import TitleBar from "../common/TitleBar";
 
 export default function UsersList() {
-  const { isLoading, error, data } = useQuery("users", () => findAll());
+  const queryClient = useQueryClient();
+  const { isLoading, error, data } = useQuery("users", () => findAll(), {
+    onSuccess: (data) => {
+      data.forEach((user) => {
+        queryClient.setQueryData(["user", user.id], user);
+      });
+    },
+  });
   const navigate = useNavigate();
 
   if (isLoading)
