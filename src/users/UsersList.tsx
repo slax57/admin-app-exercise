@@ -16,9 +16,8 @@ export default function UsersList() {
   const { isLoading, error, data } = useQuery("users", () => findAll());
   const navigate = useNavigate();
   const goToEdit = (event: any, userId: number) => {
-    console.log("called goToEdit!");
-    navigate(`/users/${userId}`);
     event.stopPropagation();
+    navigate(`/users/${userId}`);
   };
 
   if (isLoading)
