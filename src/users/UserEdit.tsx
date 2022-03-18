@@ -1,14 +1,7 @@
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { findOne, update, User } from "../dataProvider";
-import {
-  Box,
-  Button,
-  Input,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ErrorText from "../common/ErrorText";
 import TitleBar from "../common/TitleBar";
@@ -19,9 +12,16 @@ export default function UserEdit() {
   const userId = params.id ? parseInt(params.id) : 0;
   const userQuery = useQuery(["user", userId], () => findOne(userId));
   const userMutation = useMutation(update, {
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries([["user", userId], "users"]);
+    onSuccess: (newUser) => {
+      // Update user data
+      queryClient.setQueryData(["user", newUser.id], newUser);
+      // Update users list data
+      queryClient.setQueryData<User[]>("users", (oldUsers) => {
+        if (!oldUsers) return [];
+        return oldUsers.map((oldUser) =>
+          oldUser.id === newUser.id ? newUser : oldUser
+        );
+      });
     },
   });
   const {
@@ -29,6 +29,7 @@ export default function UserEdit() {
     handleSubmit,
     formState: { errors: formErrors },
   } = useForm<User>();
+  const navigate = useNavigate();
 
   const isLoading = userQuery.isLoading || userMutation.isLoading;
   const error = userQuery.error || userMutation.error;
@@ -39,6 +40,7 @@ export default function UserEdit() {
       ...user,
       id: userId,
     });
+    navigate(-1);
   };
 
   if (isLoading)
